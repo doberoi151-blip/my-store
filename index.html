@@ -69,12 +69,16 @@
                   Add to Cart
                 </button>
 
-                <button
-                  onClick={() => setShowCheckout(true)}
-                  className="bg-orange-500 text-white px-4 py-2 rounded"
-                >
-                  Buy Now
-                </button>
+             <button
+  onClick={() => {
+    const message = `I want to order Smart Watch Pro for ₹999`;
+    const phone = "9621529792"; // 👈 apna number daalo
+    window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`);
+  }}
+  className="bg-green-500 text-white px-4 py-2 rounded"
+>
+  Order on WhatsApp
+</button>
               </div>
             </div>
           </div>
