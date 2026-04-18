@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Product Store</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body class="bg-gray-100">
+  <div id="root"></div>
+
+  <script type="text/babel">
+
+    function App() {
+      const [cart, setCart] = React.useState(
+        JSON.parse(localStorage.getItem("cart")) || []
+      );
+      const [showCheckout, setShowCheckout] = React.useState(false);
+
+      const product = {
+        name: "Smart Watch Pro",
+        price: 999,
+        oldPrice: 1999,
+        image: "https://via.placeholder.com/300"
+      };
+
+      const addToCart = () => {
+        const updated = [...cart, product];
+        setCart(updated);
+        localStorage.setItem("cart", JSON.stringify(updated));
+        alert("Added to cart!");
+      };
+
+      const handleCheckout = (e) => {
+        e.preventDefault();
+        alert("Order Placed with Cash on Delivery!");
+        localStorage.removeItem("cart");
+        setCart([]);
+        setShowCheckout(false);
+      };
+
+      return (
+        <div className="p-4 max-w-4xl mx-auto">
+
+          {/* HEADER */}
+          <h1 className="text-3xl font-bold mb-4 text-center">
+            My Store
+          </h1>
+
+          {/* PRODUCT */}
+          <div className="bg-white p-6 rounded-xl shadow-md flex flex-col md:flex-row gap-6">
+
+            <img src={product.image} className="w-full md:w-1/2 rounded-lg" />
+
+            <div>
+              <h2 className="text-2xl font-semibold">{product.name}</h2>
+
+              <p className="text-gray-500 line-through">₹{product.oldPrice}</p>
+              <p className="text-xl text-green-600 font-bold">₹{product.price}</p>
+
+              <div className="mt-4 flex gap-4">
+                <button
+                  onClick={addToCart}
+                  className="bg-yellow-400 px-4 py-2 rounded"
+                >
+                  Add to Cart
+                </button>
+
+                <button
+                  onClick={() => setShowCheckout(true)}
+                  className="bg-orange-500 text-white px-4 py-2 rounded"
+                >
+                  Buy Now
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* CHECKOUT */}
+          {showCheckout && (
+            <form
+              onSubmit={handleCheckout}
+              className="bg-white mt-6 p-6 rounded-xl shadow-md"
+            >
+              <h2 className="text-xl font-bold mb-4">Checkout</h2>
+
+              <input
+                required
+                placeholder="Name"
+                className="border p-2 w-full mb-3"
+              />
+              <input
+                required
+                placeholder="Address"
+                className="border p-2 w-full mb-3"
+              />
+              <input
+                required
+                placeholder="Phone"
+                className="border p-2 w-full mb-3"
+              />
+
+              <p className="mb-3 font-semibold">
+                Payment: Cash on Delivery
+              </p>
+
+              <button
+                type="submit"
+                className="bg-green-500 text-white px-4 py-2 rounded"
+              >
+                Place Order
+              </button>
+            </form>
+          )}
+
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+
+  </script>
+</body>
+</html>
